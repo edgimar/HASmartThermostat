@@ -236,6 +236,8 @@ or a light is used, pwm parameter should be set to 0. Becomes air conditioning s
 ac_mode is set to true.
 * **invert_heater** (Optional): if set to true, inverts the polarity of heater switch (switch is on 
 while idle and off while active). Must be a boolean (defaults to false).
+* **invert_cooler** (Optional): if set to true, inverts the polarity of the cooler (AC) switch
+  (switch is on while idle and off while active). Must be a boolean (defaults to false).
 * **target_sensor** (Required): entity_id for a temperature sensor, target_sensor.state must be 
 temperature.
 * **outdoor_sensor** (Optional): entity_id for an outdoor temperature sensor, outdoor_sensor.state 
@@ -398,6 +400,24 @@ can be float in seconds, or time hh:mm:ss (default 2 hours).
 |"no-overshoot"|100|40|60|
 |"brewing"|2.5|6|380|
 
+### Inversion behavior (heater / cooler)
+
+The component supports independent inversion for the heater and the cooler switches via
+the `invert_heater` and `invert_cooler` options. Inversion is applied in a mode‑aware way:
+
+- When operating in HEAT mode, only the `invert_heater` flag is considered for the active entity
+  group (heater list).
+- When operating in COOL mode, only the `invert_cooler` flag is considered for the active entity
+  group (cooler list).
+- When switching to OFF, the integration performs a full shutdown and applies each group's
+  inversion rules independently to ensure devices are driven to their inactive state.
+
+If the same entity is (accidentally) included in both `heater` and `cooler` lists, the active
+mode determines which inversion rule applies (HEAT uses `invert_heater`, COOL uses
+`invert_cooler`).
+
+Note: composite `HEAT_COOL` operation is not supported by the integration; only the explicit
+HEAT, COOL and OFF modes are accepted.
 
 ### Credits
 This code is a fork from Smart Thermostat PID project:
