@@ -25,6 +25,7 @@ DEFAULT_PRESET_SYNC_MODE = "none"
 CONF_HEATER = "heater"
 CONF_COOLER = "cooler"
 CONF_INVERT_HEATER = 'invert_heater'
+CONF_INVERT_COOLER = 'invert_cooler'
 CONF_SENSOR = "target_sensor"
 CONF_OUTDOOR_SENSOR = "outdoor_sensor"
 CONF_MIN_TEMP = "min_temp"
